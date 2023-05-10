@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>计算天数</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        select {
+            display: block;
+            font-size: 16px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">计算天数</div>
+    <div>
+        <label>出生年份：</label>
+        <select id="year">
+            <option value=""></option>
+            <script>
+                for (var i = new Date().getFullYear(); i >= 1900; i--) {
+                    document.write("<option value='" + i + "'>" + i + "</option>");
+                }
+            </script>
+        </select>
+    </div>
+    <div>
+        <label>出生月份：</label>
+        <select id="month">
+            <option value=""></option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+    </div>
+    <div>
+        <label>出生日期：</label>
+        <select id="day">
+            <option value=""></option>
+        </select>
+    </div>
+    <button onclick="calculate()">计算</button>
+    <div class="result" id="result"></div>
+    <div style="width: 100%;">
+        <img style="display: block;max-width: 50%;margin: 0 auto;" src="https://www.haibaike.com/zb_users/upload/2023/04/20230410235043168114184398060.png">
+    </div>
+</div>
+
+
+<script>
+    function calculate() {
+        var year = document.getElementById("year").value;
+        var month = document.getElementById("month").value;
+        var day = document.getElementById("day").value;
+
+        if (!year || !month || !day) {
+            alert("请选择出生年月日！");
+            return;
+        }
+
+        var birth = new Date(year, parseInt(month) - 1, day);
+        var today = new Date();
+        var days = Math.floor((today - birth) / (1000 * 60 * 60 * 24));
+
+        document.getElementById("result").textContent = "您从出生至今已经活了" + days + "天！";
+    }
+
+    function updateDays() {
+        var year = document.getElementById("year").value;
+        var month = document.getElementById("month").value;
+        var day = document.getElementById("day");
+
+        // 根据年份和月份计算日期数
+        if (year && month) {
+            var daysInMonth = new Date(year, parseInt(month), 0).getDate();
+            day.innerHTML = "";
+            for (var i = 1; i <= daysInMonth; i++) {
+                var option = document.createElement("option");
+                option.value = i < 10 ? "0" + i : i;
+                option.text = i;
+                day.add(option);
+            }
+        } else {
+            day.innerHTML = "<option value=''></option>";
+        }
+    }
+
+    // 监听年份和月份的变化
+    document.getElementById("year").addEventListener("change", updateDays);
+    document.getElementById("month").addEventListener("change", updateDays);
+</script>
+</body>
+</html>
+<!-- 3 -->
